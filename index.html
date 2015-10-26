@@ -3,76 +3,34 @@
 <head>
     <meta charset="utf-8">
     <title>Halloween Present</title>
-    <script src="http://d3js.org/d3.v3.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.1/angular.js"></script>
-    <script src="app.js"></script>
+
 </head>
-<body ng-controller="AppCtrl">
-  <!-- Here's where our visualization will go -->
+<body ng-controller="mainCtrl">
+    Important<input type="range" min="0" max="10" ng-model="urgencyWeight">Urgent
+    <table>
+        <thead>
+            <tr>
+                <td>Event</td>
+                <td>Importance</td>
+                <td>Urgency</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="obj in data">
+                <td>{{ obj.key }}</td>
+                <td><input type="range" min="1" max="10" ng-model="obj.importance" value="obj.importance"></td>
+                <td><input type="range" min="1" max="10" ng-model="obj.urgency" value="obj.urgency"></td>
+            </tr>
+        </tbody>
+    </table>
 
-
-    <svg id="chart"></svg>
-    <script type="text/javascript">
-    // Set the dimensions of the canvas / graph
-    var margin = {top: 30, right: 20, bottom: 30, left: 50},
-        canvasWidth = 500,
-        canvasHeight = 500,
-        chartWidth = canvasWidth - margin.left - margin.right,
-        chartHeight = canvasHeight - margin.top - margin.bottom;
-// Adds the svg canvas
-    var svg = d3.select("#chart")
-        .attr("width", chartWidth + margin.left + margin.right)
-        .attr("height", chartHeight + margin.top + margin.bottom)
-        .append("g")
-            .attr("transform",
-                  "translate(" + margin.left + "," + margin.top + ")");
-    //dummy data
-    var data =  [
-                    { key: 'sleep', importance: 7, urgency: 9 },
-                    { key: 'eat', importance: 6, urgency: 8  },
-                    { key: 'play', importance: 10, urgency: 3}
-                ];
-    var importanceWeight = 10,
-        urgencyWeight = 6;
-    var slope = importanceWeight/urgencyWeight;
-    console.log(slope);
-    // Set the ranges
-    var x = d3.scale.linear().domain([0, 10]).range([0, chartWidth]);
-    var y = d3.scale.linear().domain([0, 10]).range([chartHeight, 0]);
-    // Define the axes
-    var xAxis = d3.svg.axis().scale(x)
-        .orient("bottom").ticks(5);
-
-    var yAxis = d3.svg.axis().scale(y)
-        .orient("left").ticks(5);
-
-    svg.selectAll("dot")
-            .data(data)
-            .enter().append("circle")
-            .attr("r", 3.5)
-            .attr("cx", function(datum) { return x(datum.importance); })
-            .attr("cy", function(datum) { return y(datum.urgency); });
-    svg.selectAll("label")
-            .data(data)
-            .enter().append("text")
-            .attr("x", function(datum) { return x(datum.importance); })
-            .attr("y", function(datum) { return y(datum.urgency)+20; })
-            .attr("text-anchor", "middle")
-            .text( function(datum) { return datum.key; });
-
-        // Add the X Axis
-        svg.append("g")
-            .attr("class", "x axis")
-            .attr("transform", "translate(0," + chartHeight + ")")
-            .call(xAxis);
-
-        // Add the Y Axis
-        svg.append("g")
-            .attr("class", "y axis")
-            .call(yAxis);
-
-    </script>
-
+    <div d3-chart data="data" importanceweight="importanceWeight" urgencyweight="urgencyWeight">
+      <!-- Here's where our visualization will go -->
+    </div>
+    <ul><li ng-repeat="obj in orderedData | orderBy:'score'">{{ obj.key }}</li></ul>
+    <script src="app.js"></script>
+    <script src="d3.js"></script>
 
 
 
