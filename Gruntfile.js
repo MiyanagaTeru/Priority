@@ -1,5 +1,5 @@
 module.exports = function(grunt) {
-
+  require('load-grunt-tasks')(grunt);
   // Project configuration.
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
@@ -11,6 +11,17 @@ module.exports = function(grunt) {
         src: 'src/<%= pkg.name %>.js',
         dest: 'build/<%= pkg.name %>.min.js'
       }
+    },
+    php: {
+        dist: {
+            options: {
+              keepalive: true,
+              open: true,
+              directives: {
+                    'error_log': require('path').resolve('logs/error.log')
+                  }
+            }
+        }
     }
   });
 
@@ -20,5 +31,6 @@ module.exports = function(grunt) {
 
   // Default task(s).
   grunt.registerTask('default', ['uglify']);
+  grunt.registerTask('default', ['php']);
 
 };

@@ -1,9 +1,1 @@
-{
-	"events": [
-		{ "key": "sleep", "importance": 70, "urgency": 90 },
-		{ "key": "eat", "importance": 60, "urgency": 80  },
-		{ "key": "play", "importance": 100, "urgency": 30}
-		],
-	"importanceWeight":8,
-	"urgencyWeight": 2
-}
+{"events":[{"key":"sleep","importance":70,"urgency":90,"score":"29.54"},{"key":"eat","importance":60,"urgency":80,"score":"43.61"},{"key":"play","importance":100,"urgency":30,"score":"44.39"}],"importanceWeight":54.99999999999999,"urgencyWeight":"45.1"}

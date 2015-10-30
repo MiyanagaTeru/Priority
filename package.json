@@ -6,6 +6,8 @@
     "grunt-contrib-jshint": "~0.10.0",
     "grunt-contrib-nodeunit": "~0.4.1",
     "grunt-contrib-uglify": "~0.5.0",
-    "grunt-serve": "^0.1.6"
+    "grunt-php": "^1.5.1",
+    "grunt-serve": "^0.1.6",
+    "load-grunt-tasks": "^3.3.0"
   }
 }

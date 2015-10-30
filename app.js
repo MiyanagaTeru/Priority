@@ -9,20 +9,18 @@ $http.get('model.json').
 		$scope.events = response.data.events;
 		$scope.importanceWeight = response.data.importanceWeight;
 		$scope.urgencyWeight = response.data.urgencyWeight;
-		console.log($scope.events);
 
 		var reorderEvents = function (importanceWeight, urgencyWeight) {
 			var k =  -importanceWeight/urgencyWeight;
 			for (i=0; i < $scope.events.length; i++) {
 				var tempScore = Math.abs(k*$scope.events[i].importance - $scope.events[i].urgency + 100*(1-k) )/Math.sqrt(k*k+1);
 				$scope.events[i].score = tempScore.toFixed(2);
-				console.log($scope.events[i].key);
-				console.log(tempScore.toFixed(2));
 			}
 		};
 		reorderEvents($scope.importanceWeight, $scope.urgencyWeight);
 		$scope.$watch('[events, importanceWeight, urgencyWeight]', function(newVals, oldVals) {
-			return reorderEvents(newVals[1], newVals[2]);
+			saveData();
+			reorderEvents(newVals[1], newVals[2]);
 		}, true);
 
 		var updateWeights = function (urgencyWeight) {
@@ -33,8 +31,13 @@ $http.get('model.json').
 		  return updateWeights(newVals);
 		}, true);
 
-		var saveData = function($scope) {
-
+		var saveData = function() {
+			var dataToSave = {
+				events: $scope.events,
+				importanceWeight: $scope.importanceWeight,
+				urgencyWeight: $scope.urgencyWeight
+			};
+			$http.post('saveData.php', dataToSave).then(function(){ console.log(dataToSave); console.log('data saved.');}, function(){ console.log('data not saved.');});
 		};
 	}, function() {
 	 // log error
